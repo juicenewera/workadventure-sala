@@ -8,18 +8,16 @@ let currentPopup: any = undefined;
 
 // Waiting for the API to be ready
 WA.onInit().then(() => {
-    console.info('Scripting API ready');
-    console.info('Player tags: ',WA.player.tags)
+    console.info('WorkAdventure Scripting API ready');
 
-    WA.room.area.onEnter('clock').subscribe(() => {
-        const today = new Date();
-        const time = today.getHours() + ":" + today.getMinutes();
-        currentPopup = WA.ui.openPopup("clockPopup", "It's " + time, []);
-    })
+    // Mensagem de boas-vindas na Cafeteria
+    WA.room.area.onEnter('cafeteriaPopup').subscribe(() => {
+        currentPopup = WA.ui.openPopup("cafeteriaPopup", "☕ Bem-vindo à Cafeteria! Pegue um café ou lanche e sente-se em uma das mesas para almoçar.", []);
+    });
 
-    WA.room.area.onLeave('clock').subscribe(closePopup)
+    WA.room.area.onLeave('cafeteriaPopup').subscribe(closePopup);
 
-    // The line below bootstraps the Scripting API Extra library that adds a number of advanced properties/features to WorkAdventure
+    // Bootstrap do scripting API extra para carregar recursos adicionais
     bootstrapExtra().then(() => {
         console.info('Scripting API Extra ready');
     }).catch(e => console.error(e));
